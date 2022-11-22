@@ -30,7 +30,7 @@ spec:
     taints:
     - key: testkey
       value: testvalue
-      effect: NoSchedule
+      effect: PreferNoSchedule
     count: 1
     endpoint:
       host: "195.16.99.88"
@@ -46,7 +46,7 @@ spec:
   workerNodeGroupConfigurations:
     - count: 1
       labels:
-      a: b
+        a: b
       machineGroupRef:
         kind: VSphereMachineConfig
         name: gitops-wl2-cp
