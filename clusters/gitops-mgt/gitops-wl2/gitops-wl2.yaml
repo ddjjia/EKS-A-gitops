@@ -40,7 +40,7 @@ spec:
   datacenterRef:
     kind: VSphereDatacenterConfig
     name: gitops-wl2
-  kubernetesVersion: "1.22"
+  kubernetesVersion: "1.23"
   managementCluster:
     name: gitops-mgt
   workerNodeGroupConfigurations:
@@ -79,7 +79,7 @@ spec:
   memoryMiB: 8192
   numCPUs: 2
   osFamily: ubuntu
-  template: "/SDDC-Datacenter/vm/Templates/ubuntu-kube-v1-22"
+  template: "/SDDC-Datacenter/vm/Templates/ubuntu-kube-v1-23"
   resourcePool: "/SDDC-Datacenter/host/Cluster-1/Resources/Compute-ResourcePool"
   users:
     - name: ec2-user
