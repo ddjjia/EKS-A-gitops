@@ -27,10 +27,10 @@ spec:
   #     kind: VSphereMachineConfig
   #     name: gitops-wl2-cp
   controlPlaneConfiguration:
-    # taints:
-    # - key: testkey
-    #   value: testvalue
-    #   effect: NoSchedule
+    taints:
+    - key: testkey
+      value: testvalue
+      effect: NoSchedule
     count: 1
     endpoint:
       host: "195.16.99.88"
@@ -45,8 +45,8 @@ spec:
     name: gitops-mgt
   workerNodeGroupConfigurations:
     - count: 1
-      # labels:
-      # a: b
+      labels:
+      a: b
       machineGroupRef:
         kind: VSphereMachineConfig
         name: gitops-wl2-cp
