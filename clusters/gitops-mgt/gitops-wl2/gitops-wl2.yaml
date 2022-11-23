@@ -1,0 +1,119 @@
+apiVersion: anywhere.eks.amazonaws.com/v1alpha1
+kind: Cluster
+metadata:
+  name: gitops-wl2
+  namespace: default
+spec:
+  #  identityProviderRefs:
+  #    - kind: OIDCConfig
+  #      name: gitops-wl2
+  bundlesRef:
+    name: bundles-2
+    namespace: eksa-system
+    apiVersion: anywhere.eks.amazonaws.com/v1alpha1
+  clusterNetwork:
+    cniConfig:
+      cilium: {}
+      # policyEnforcementMode: "always"
+    pods:
+      cidrBlocks:
+        - 192.168.0.0/16
+    services:
+      cidrBlocks:
+        - 10.96.0.0/12
+  # externalEtcdConfiguration:
+  #   count: 3
+  #   machineGroupRef:
+  #     kind: VSphereMachineConfig
+  #     name: gitops-wl2-cp
+  controlPlaneConfiguration:
+    # taints:
+    # - key: testkey
+    #   value: testvalue
+    #   effect: NoSchedule
+    count: 1
+    endpoint:
+      host: "195.16.99.89"
+    machineGroupRef:
+      kind: VSphereMachineConfig
+      name: gitops-wl2-cp
+  datacenterRef:
+    kind: VSphereDatacenterConfig
+    name: gitops-wl2
+  kubernetesVersion: "1.22"
+  managementCluster:
+    name: gitops-mgt
+  workerNodeGroupConfigurations:
+    - count: 1
+      # labels:
+      # a: b
+      machineGroupRef:
+        kind: VSphereMachineConfig
+        name: gitops-wl2-cp
+      name: md-0
+    # - count: 1
+    #   machineGroupRef:
+    #     kind: VSphereMachineConfig
+    #     name: gitops-wl2-cp
+    #   name: md-1
+  # gitOpsRef:
+  #   kind: FluxConfig
+  #   name: kubectl
+---
+apiVersion: anywhere.eks.amazonaws.com/v1alpha1
+kind: VSphereDatacenterConfig
+metadata:
+  name: gitops-wl2
+  namespace: default
+spec:
+  datacenter: "SDDC-Datacenter"
+  insecure: false
+  network: "sddc-cgw-network-4"
+  server: "vcenter.sddc-44-239-186-141.vmwarevmc.com"
+  thumbprint: "A:6:6:8:B:5:C:A:7:3:7:C:0:0:2:3:7:B:7:F:6:7:9:9:3:A:B:3:1:F:8:D:A:E:9:1:0:C:7:4"
+---
+apiVersion: anywhere.eks.amazonaws.com/v1alpha1
+kind: VSphereMachineConfig
+metadata:
+  name: gitops-wl2-cp
+  namespace: default
+spec:
+  datastore: "/SDDC-Datacenter/datastore/WorkloadDatastore"
+  diskGiB: 25
+  folder: "/SDDC-Datacenter/vm/capv/ddjia/"
+  memoryMiB: 8192
+  numCPUs: 2
+  osFamily: ubuntu
+  template: "/SDDC-Datacenter/vm/Templates/ubuntu-kube-v1-22"
+  resourcePool: "/SDDC-Datacenter/host/Cluster-1/Resources/Compute-ResourcePool"
+  users:
+    - name: ec2-user
+      sshAuthorizedKeys:
+        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDsWSzV/Fqf6YrLdunos0sd+vE31q3Xp2e53scyxhgPoKBv+us0fxHVZHCIohKgIaTYHxM0SfaYOi1LJaXm2+XB4hEKzxSTnM5cVVFv0NG63LdwOO3HC4RfPa7eM7MFyvyWxeQ4H+1TFCufzk0y3Sun/QkXa2hOjlbdJOrIOfF1jwzBFGTCMjQTcL4LhMn7aZDkj4i3kPtKZakyeLDuAoA6GhOXPMbYbGgUkAPOLD5sO3UHbSS7oVP8bOjrtQKQ//yNZ0R6ZYJb1go14Q4R+jwPTfZ7uYstV2uYs5ifwAh+a7+Ra+st40hH6TPzVC6SuXtqNiBSgLiEM9wD4C8mEMWXZpxror2JiSEEu12EhnIMYl2VsUDKUMhc5c68EZNCWjxTMIkriQbMkxlq4121TBXdfS5ZKJTRucAaobjP7jYkEli4G38Iyg20Ns2IgGkpb4baZJkfdJki9TfmxLtsSqjH9t0C/450KKcPsdtERdVFUrr67D/I/h91MXvmFVwW4te4bGJBhHh8TuirWyvgXEjNRxZqhpL3aerkRupfhUL8ySei062LVAFj3u0trzGHU+vbKIO+QSwV0Q/8Um57DUHTB4ovjVve24BBMFjzv3435Er6OkTm/bmlBpyh/a/urVjf5hzkhAqEkO78Q1bV7q3BZX8Sz1CLGQUGc2o3SgMMSQ==
+#---
+#apiVersion: anywhere.eks.amazonaws.com/v1alpha1
+#kind: OIDCConfig
+#metadata:
+#  namespace: default
+#  name: gitops-wl2
+#spec:
+#  clientId: 9b2a08f451f16dcd986a7d516a849bb107e09d2b
+#  groupsClaim: groups
+#  groupsPrefix: 's3-oidc:'
+#  issuerUrl: https://s3-us-west-2.amazonaws.com/jwmeier-testing/public
+#  requiredClaims:
+#    - claim: kubernetesAccess
+#      value: "true"
+#  usernameClaim: email
+#  usernamePrefix: 's3-oidc:'
+---
+apiVersion: anywhere.eks.amazonaws.com/v1alpha1
+kind: FluxConfig
+metadata:
+  name: gitops-wl2
+  namespace: default
+spec:
+  github:
+    personal: true
+    repository: EKS-A-gitops
+    owner: ddjjia
