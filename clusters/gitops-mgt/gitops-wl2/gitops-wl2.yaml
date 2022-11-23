@@ -51,11 +51,11 @@ spec:
         kind: VSphereMachineConfig
         name: gitops-wl2-cp
       name: md-0
-    - count: 1
-      machineGroupRef:
-        kind: VSphereMachineConfig
-        name: gitops-wl2-cp
-      name: md-1
+#    - count: 1
+#      machineGroupRef:
+#        kind: VSphereMachineConfig
+#        name: gitops-wl2-cp
+#      name: md-1
   # gitOpsRef:
   #   kind: FluxConfig
   #   name: kubectl
