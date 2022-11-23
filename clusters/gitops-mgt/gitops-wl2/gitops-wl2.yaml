@@ -84,7 +84,7 @@ spec:
   memoryMiB: 8192
   numCPUs: 2
   osFamily: ubuntu
-  template: "/SDDC-Datacenter/vm/Templates/ubuntu-kube-v1-22123"
+  template: "/SDDC-Datacenter/vm/Templates/ubuntu-kube-v1-22"
   resourcePool: "/SDDC-Datacenter/host/Cluster-1/Resources/Compute-ResourcePool"
   users:
     - name: ec2-user
