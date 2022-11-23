@@ -33,11 +33,16 @@ spec:
   kubernetesVersion: "1.22"
   managementCluster: {}
   workerNodeGroupConfigurations:
-  - count: 1
+  - count: 3
     machineGroupRef:
       kind: VSphereMachineConfig
       name: gitops-mgt-cp
     name: md-0
+  - count: 1
+    machineGroupRef:
+      kind: VSphereMachineConfig
+      name: gitops-mgt-cp
+    name: md-1
 
 ---
 apiVersion: anywhere.eks.amazonaws.com/v1alpha1
