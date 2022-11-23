@@ -13,8 +13,8 @@ spec:
     apiVersion: anywhere.eks.amazonaws.com/v1alpha1
   clusterNetwork:
     cniConfig:
-      cilium: {}
-      # policyEnforcementMode: "always"
+      cilium:
+       policyEnforcementMode: "always"
     pods:
       cidrBlocks:
         - 192.168.0.0/16
